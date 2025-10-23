@@ -32,8 +32,8 @@ func (td *TodoRepository) CreateTodo(body models.Todo) error {
 	return nil
 }
 
-func (td *TodoRepository) GetAllTodos(search string, page, limit int, sort string) ([]models.Todo, int64, error) {
-	var todos []models.Todo
+func (td *TodoRepository) GetAllTodos(search string, page, limit int, sort string) ([]models.TodoList, int64, error) {
+	var todos []models.TodoList
 	var total int64
 
 	query := td.db.Model(&models.Todo{})

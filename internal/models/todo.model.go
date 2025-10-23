@@ -12,3 +12,8 @@ type Todo struct {
 	CreatedAt   time.Time  `json:"created_at"`
 	UpdatedAt   *time.Time `json:"updated_at"`
 }
+
+type TodoList struct {
+	Id    int    `json:"id" gorm:"primaryKey"`
+	Title string `json:"title"`
+}
