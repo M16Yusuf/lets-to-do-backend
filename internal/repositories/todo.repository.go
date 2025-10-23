@@ -72,3 +72,14 @@ func (td *TodoRepository) GetAllTodos(search string, page, limit int, sort strin
 
 	return todos, total, nil
 }
+
+func (td *TodoRepository) GetDetailTodo(id int) (*models.Todo, error) {
+	var todo models.Todo
+	result := td.db.Where("id = ?", id).First(&todo)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &todo, nil
+}

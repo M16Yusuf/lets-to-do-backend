@@ -83,3 +83,28 @@ func (t *Todohandler) GetAllAndFilter(ctx *gin.Context) {
 		})
 	}
 }
+
+func (t *Todohandler) GetDetailTodo(ctx *gin.Context) {
+	todoID, _ := strconv.Atoi(ctx.Param("id"))
+
+	todo, err := t.tr.GetDetailTodo(todoID)
+	if err != nil {
+		log.Println("failed execute repositories \n Cause : ", err)
+		ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{
+			Response: models.Response{
+				IsSuccess: false,
+				Code:      http.StatusInternalServerError,
+			},
+			Err: "Internal server error",
+		})
+		return
+	} else {
+		ctx.JSON(http.StatusOK, models.ResponseData{
+			Response: models.Response{
+				IsSuccess: true,
+				Code:      http.StatusOK,
+			},
+			Data: todo,
+		})
+	}
+}
