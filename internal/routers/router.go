@@ -12,13 +12,7 @@ func InitRouter(db *gorm.DB) *gin.Engine {
 	router := gin.Default()
 
 	// setup routing
-	router.GET("/ping", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, models.Response{
-			IsSuccess: true,
-			Code:      http.StatusOK,
-			Msg:       "pong",
-		})
-	})
+	InitTodoRouter(router, db)
 
 	router.NoRoute(func(ctx *gin.Context) {
 		ctx.JSON(http.StatusNotFound, models.Response{
