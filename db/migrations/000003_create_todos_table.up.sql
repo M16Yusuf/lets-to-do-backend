@@ -1,4 +1,4 @@
-CREATE TABLE todo(
+CREATE TABLE todos(
   id SERIAL,
   title VARCHAR(200) NOT NULL,
   description TEXT,
