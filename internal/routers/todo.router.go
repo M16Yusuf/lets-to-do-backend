@@ -12,5 +12,6 @@ func InitTodoRouter(router *gin.Engine, db *gorm.DB) {
 	todoRepository := repositories.NewTodoRepository(db)
 	todohandler := handlers.NewTodoHandler(todoRepository)
 
+	todoRouter.GET("", todohandler.GetAllAndFilter)
 	todoRouter.POST("", todohandler.CreateTodo)
 }

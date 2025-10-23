@@ -3,6 +3,7 @@ package handlers
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/m16yusuf/lets-to-do/internal/models"
@@ -32,7 +33,7 @@ func (t *Todohandler) CreateTodo(ctx *gin.Context) {
 		return
 	}
 
-	if err := t.tr.CreateTodo(ctx.Request.Context(), body); err != nil {
+	if err := t.tr.CreateTodo(body); err != nil {
 		log.Println("failed execute repositories \n Cause : ", err)
 		ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{
 			Response: models.Response{
@@ -41,11 +42,44 @@ func (t *Todohandler) CreateTodo(ctx *gin.Context) {
 			},
 			Err: "Internal server error",
 		})
+		return
 	} else {
 		ctx.JSON(http.StatusOK, models.Response{
 			IsSuccess: true,
 			Code:      http.StatusOK,
 			Msg:       "Todo created successfully",
+		})
+	}
+}
+
+func (t *Todohandler) GetAllAndFilter(ctx *gin.Context) {
+	search := ctx.Query("query")
+	limit := 10
+	pageStr := ctx.DefaultQuery("page", "1")
+	page, _ := strconv.Atoi(pageStr)
+	sort := ctx.DefaultQuery("sort", "desc")
+
+	todos, total, err := t.tr.GetAllTodos(search, page, limit, sort)
+	if err != nil {
+		log.Println("failed execute repositories \n Cause : ", err)
+		ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{
+			Response: models.Response{
+				IsSuccess: false,
+				Code:      http.StatusInternalServerError,
+			},
+			Err: "Internal server error",
+		})
+		return
+	} else {
+		ctx.JSON(http.StatusOK, models.ResponseData{
+			Response: models.Response{
+				IsSuccess: true,
+				Code:      http.StatusOK,
+			},
+			Data:  todos,
+			Page:  page,
+			Limit: limit,
+			Total: int(total),
 		})
 	}
 }
