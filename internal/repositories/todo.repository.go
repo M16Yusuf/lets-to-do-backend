@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"errors"
 	"fmt"
 	"time"
 
@@ -82,4 +83,21 @@ func (td *TodoRepository) GetDetailTodo(id int) (*models.Todo, error) {
 	}
 
 	return &todo, nil
+}
+
+func (td *TodoRepository) UpdateTodo(id int, updates map[string]interface{}) error {
+	if len(updates) == 0 {
+		return errors.New("no fields to update")
+	}
+
+	result := td.db.Model(&models.Todo{}).Where("id = ?", id).Updates(updates)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
+	}
+
+	return nil
 }

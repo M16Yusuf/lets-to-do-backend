@@ -15,4 +15,5 @@ func InitTodoRouter(router *gin.Engine, db *gorm.DB) {
 	todoRouter.GET("", todohandler.GetAllAndFilter)
 	todoRouter.POST("", todohandler.CreateTodo)
 	todoRouter.GET("/:id", todohandler.GetDetailTodo)
+	todoRouter.PUT("/:id", todohandler.UpdateTodo)
 }

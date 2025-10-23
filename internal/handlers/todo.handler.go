@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/m16yusuf/lets-to-do/internal/models"
@@ -107,4 +108,42 @@ func (t *Todohandler) GetDetailTodo(ctx *gin.Context) {
 			Data: todo,
 		})
 	}
+}
+
+func (t *Todohandler) UpdateTodo(ctx *gin.Context) {
+	todoID, _ := strconv.Atoi(ctx.Param("id"))
+
+	var updates map[string]interface{}
+	if err := ctx.ShouldBindJSON(&updates); err != nil {
+		log.Println("failed binding data \nCause :", err)
+		ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{
+			Response: models.Response{
+				IsSuccess: false,
+				Code:      http.StatusInternalServerError,
+			},
+			Err: "Internal server error",
+		})
+		return
+	}
+
+	updates["updated_at"] = time.Now()
+
+	if err := t.tr.UpdateTodo(todoID, updates); err != nil {
+		log.Println("failed execute repositories \n Cause : ", err)
+		ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{
+			Response: models.Response{
+				IsSuccess: false,
+				Code:      http.StatusInternalServerError,
+			},
+			Err: "Internal server error",
+		})
+		return
+	} else {
+		ctx.JSON(http.StatusOK, models.Response{
+			IsSuccess: true,
+			Code:      http.StatusOK,
+			Msg:       "Todo update successfully",
+		})
+	}
+
 }
