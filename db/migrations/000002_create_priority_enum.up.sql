@@ -1,0 +1,1 @@
+CREATE TYPE priority AS ENUM ('high', 'medium', 'low');
