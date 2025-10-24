@@ -13,6 +13,7 @@ func InitRouter(db *gorm.DB) *gin.Engine {
 
 	// setup routing
 	InitTodoRouter(router, db)
+	InitCategoryRouter(router, db)
 
 	router.NoRoute(func(ctx *gin.Context) {
 		ctx.JSON(http.StatusNotFound, models.Response{
