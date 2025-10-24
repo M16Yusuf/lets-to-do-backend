@@ -56,3 +56,14 @@ func (cr *CategoryRepository) UpdateCategory(id int, updates map[string]interfac
 
 	return nil
 }
+
+func (cr *CategoryRepository) DeleteCategory(id int) error {
+	result := cr.db.Delete(&models.Category{}, id)
+	if result.Error != nil {
+		return result.Error
+	}
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
+	}
+	return nil
+}

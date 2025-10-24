@@ -104,7 +104,29 @@ func (c *CategoryHandler) UpdateCategory(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, models.Response{
 			IsSuccess: true,
 			Code:      http.StatusOK,
-			Msg:       "Category update successfully",
+			Msg:       "Category updated successfully",
+		})
+	}
+}
+
+func (c *CategoryHandler) DeleteCategory(ctx *gin.Context) {
+	CategoryID, _ := strconv.Atoi(ctx.Param("id"))
+
+	if err := c.cr.DeleteCategory(CategoryID); err != nil {
+		log.Println("failed execute repositories \n Cause : ", err)
+		ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{
+			Response: models.Response{
+				IsSuccess: false,
+				Code:      http.StatusInternalServerError,
+			},
+			Err: "Internal server error",
+		})
+		return
+	} else {
+		ctx.JSON(http.StatusOK, models.Response{
+			IsSuccess: true,
+			Code:      http.StatusOK,
+			Msg:       "Category deleted successfully",
 		})
 	}
 }

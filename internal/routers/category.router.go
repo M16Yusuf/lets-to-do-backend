@@ -15,4 +15,5 @@ func InitCategoryRouter(router *gin.Engine, db *gorm.DB) {
 	categoryRouter.GET("", categoryHandler.GetAllCategory)
 	categoryRouter.POST("", categoryHandler.CreateCategory)
 	categoryRouter.PUT("/:id", categoryHandler.UpdateCategory)
+	categoryRouter.DELETE("/:id", categoryHandler.DeleteCategory)
 }
