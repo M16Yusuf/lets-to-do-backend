@@ -14,7 +14,7 @@ type ErrorResponse struct {
 type ResponseData struct {
 	Response
 	Data       any        `json:"data,omitempty"`
-	Pagenation Pagenation `json:"pagenation"`
+	Pagenation Pagenation `json:"pagenation,omitempty"`
 }
 
 type Pagenation struct {
