@@ -3,6 +3,7 @@ package handlers
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/m16yusuf/lets-to-do/internal/models"
@@ -69,6 +70,41 @@ func (c *CategoryHandler) CreateCategory(ctx *gin.Context) {
 			IsSuccess: true,
 			Code:      http.StatusOK,
 			Msg:       "Category created successfully",
+		})
+	}
+}
+
+func (c *CategoryHandler) UpdateCategory(ctx *gin.Context) {
+	CategoryID, _ := strconv.Atoi(ctx.Param("id"))
+
+	var updates map[string]interface{}
+	if err := ctx.ShouldBindJSON(&updates); err != nil {
+		log.Println("failed binding data \nCause :", err)
+		ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{
+			Response: models.Response{
+				IsSuccess: false,
+				Code:      http.StatusInternalServerError,
+			},
+			Err: "Internal server error",
+		})
+		return
+	}
+
+	if err := c.cr.UpdateCategory(CategoryID, updates); err != nil {
+		log.Println("failed execute repositories \n Cause : ", err)
+		ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{
+			Response: models.Response{
+				IsSuccess: false,
+				Code:      http.StatusInternalServerError,
+			},
+			Err: "Internal server error",
+		})
+		return
+	} else {
+		ctx.JSON(http.StatusOK, models.Response{
+			IsSuccess: true,
+			Code:      http.StatusOK,
+			Msg:       "Category update successfully",
 		})
 	}
 }

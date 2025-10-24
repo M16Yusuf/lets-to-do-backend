@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"errors"
 	"time"
 
 	"github.com/m16yusuf/lets-to-do/internal/models"
@@ -34,6 +35,23 @@ func (cr *CategoryRepository) CreateCategory(body models.Category) error {
 
 	if err := cr.db.Create(&newCategory).Error; err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (cr *CategoryRepository) UpdateCategory(id int, updates map[string]interface{}) error {
+	if len(updates) == 0 {
+		return errors.New("no fields to update")
+	}
+
+	result := cr.db.Model(&models.Category{}).Where("id = ?", id).Updates(updates)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
 	}
 
 	return nil
