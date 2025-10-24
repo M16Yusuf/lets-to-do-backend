@@ -4,12 +4,14 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/m16yusuf/lets-to-do/internal/middleware"
 	"github.com/m16yusuf/lets-to-do/internal/models"
 	"gorm.io/gorm"
 )
 
 func InitRouter(db *gorm.DB) *gin.Engine {
 	router := gin.Default()
+	router.Use(middleware.CORSMiddleware)
 
 	// setup routing
 	InitTodoRouter(router, db)
