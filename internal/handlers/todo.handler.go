@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"log"
+	"math"
 	"net/http"
 	"strconv"
 	"time"
@@ -77,10 +78,13 @@ func (t *Todohandler) GetAllAndFilter(ctx *gin.Context) {
 				IsSuccess: true,
 				Code:      http.StatusOK,
 			},
-			Data:  todos,
-			Page:  page,
-			Limit: limit,
-			Total: int(total),
+			Data: todos,
+			Pagenation: models.Pagenation{
+				Page:      page,
+				Limit:     limit,
+				Total:     int(total),
+				TotalPage: int(math.Ceil(float64(total) / float64(limit))),
+			},
 		})
 	}
 }
