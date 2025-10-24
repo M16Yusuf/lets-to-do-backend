@@ -9,11 +9,13 @@ type Todo struct {
 	Category_id *int       `json:"category_id"`
 	Priority    string     `json:"priority"`
 	DueDate     *time.Time `json:"due_date"`
+	IsCompleted bool       `json:"is_completed"`
 	CreatedAt   time.Time  `json:"created_at"`
 	UpdatedAt   *time.Time `json:"updated_at"`
 }
 
 type TodoList struct {
-	Id    int    `json:"id" gorm:"primaryKey"`
-	Title string `json:"title"`
+	Id          int    `json:"id" gorm:"primaryKey"`
+	Title       string `json:"title"`
+	IsCompleted bool   `json:"is_completed"`
 }
