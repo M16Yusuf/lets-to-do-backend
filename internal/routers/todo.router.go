@@ -16,4 +16,5 @@ func InitTodoRouter(router *gin.Engine, db *gorm.DB) {
 	todoRouter.POST("", todohandler.CreateTodo)
 	todoRouter.GET("/:id", todohandler.GetDetailTodo)
 	todoRouter.PUT("/:id", todohandler.UpdateTodo)
+	todoRouter.DELETE("/:id", todohandler.DeleteTodo)
 }

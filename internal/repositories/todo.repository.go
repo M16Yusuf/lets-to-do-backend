@@ -101,3 +101,14 @@ func (td *TodoRepository) UpdateTodo(id int, updates map[string]interface{}) err
 
 	return nil
 }
+
+func (td *TodoRepository) DeleteTodo(id int) error {
+	result := td.db.Delete(&models.Todo{}, id)
+	if result.Error != nil {
+		return result.Error
+	}
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
+	}
+	return nil
+}

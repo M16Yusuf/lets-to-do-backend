@@ -145,5 +145,26 @@ func (t *Todohandler) UpdateTodo(ctx *gin.Context) {
 			Msg:       "Todo update successfully",
 		})
 	}
+}
 
+func (t *Todohandler) DeleteTodo(ctx *gin.Context) {
+	todoID, _ := strconv.Atoi(ctx.Param("id"))
+
+	if err := t.tr.DeleteTodo(todoID); err != nil {
+		log.Println("failed execute repositories \n Cause : ", err)
+		ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{
+			Response: models.Response{
+				IsSuccess: false,
+				Code:      http.StatusInternalServerError,
+			},
+			Err: "Internal server error",
+		})
+		return
+	} else {
+		ctx.JSON(http.StatusOK, models.Response{
+			IsSuccess: true,
+			Code:      http.StatusOK,
+			Msg:       "Todo delete successfully",
+		})
+	}
 }
