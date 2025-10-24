@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"time"
+
 	"github.com/m16yusuf/lets-to-do/internal/models"
 	"gorm.io/gorm"
 )
@@ -21,4 +23,18 @@ func (cr *CategoryRepository) GetAllCategory() ([]models.Category, error) {
 	}
 
 	return categories, nil
+}
+
+func (cr *CategoryRepository) CreateCategory(body models.Category) error {
+	newCategory := models.Category{
+		Name:      body.Name,
+		Color:     body.Color,
+		CreatedAt: time.Now(),
+	}
+
+	if err := cr.db.Create(&newCategory).Error; err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -34,6 +35,40 @@ func (c *CategoryHandler) GetAllCategory(ctx *gin.Context) {
 				Code:      http.StatusOK,
 			},
 			Data: categories,
+		})
+	}
+}
+
+func (c *CategoryHandler) CreateCategory(ctx *gin.Context) {
+	var body models.Category
+
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		log.Println("failed binding data \nCause :", err)
+		ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{
+			Response: models.Response{
+				IsSuccess: false,
+				Code:      http.StatusInternalServerError,
+			},
+			Err: "Internal server error",
+		})
+		return
+	}
+
+	if err := c.cr.CreateCategory(body); err != nil {
+		log.Println("failed execute repositories \n Cause : ", err)
+		ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{
+			Response: models.Response{
+				IsSuccess: false,
+				Code:      http.StatusInternalServerError,
+			},
+			Err: "Internal server error",
+		})
+		return
+	} else {
+		ctx.JSON(http.StatusOK, models.Response{
+			IsSuccess: true,
+			Code:      http.StatusOK,
+			Msg:       "Category created successfully",
 		})
 	}
 }

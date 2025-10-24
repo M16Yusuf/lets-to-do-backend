@@ -13,4 +13,5 @@ func InitCategoryRouter(router *gin.Engine, db *gorm.DB) {
 	categoryHandler := handlers.NewCategoryHandler(categoryRepository)
 
 	categoryRouter.GET("", categoryHandler.GetAllCategory)
+	categoryRouter.POST("", categoryHandler.CreateCategory)
 }
