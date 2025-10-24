@@ -112,3 +112,18 @@ func (td *TodoRepository) DeleteTodo(id int) error {
 	}
 	return nil
 }
+
+func (td *TodoRepository) ToggleComplete(id int) error {
+
+	result := td.db.Model(&models.Todo{}).Where("id = ?", id).Updates(map[string]interface{}{
+		"is_completed": gorm.Expr("NOT is_completed"),
+		"updated_at":   time.Now(),
+	})
+	if result.Error != nil {
+		return result.Error
+	}
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
+	}
+	return nil
+}
