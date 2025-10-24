@@ -11,7 +11,24 @@ On table categories is use for store data categories list, with data name and co
 
 This design is provides a clear, normalized, and scalable schema for managing tasks and their categories. It ensures data integrity, supports flexible querying, and aligns well with common real-world use cases in task management systems.
 
-![erd_database](/erd-project.png)
+![erd_database](/demo/erd-project.png)
+
+## Code Splitting and Struckture Folder
+
+<img src="/demo/Structure_folder.png" loading="lazy" width="370px" align="right">
+
+**This project use monolithic architecture** where the application run on one server. Why using monolithc? because the application scale and complexity is small, monolithic is best option then using microservice and it will make application overengineering.
+
+The code splited like shown beside, the code splited following **Separation of concerns** principle where code divided by their function, every section asign for one responsibilty. This approach makes software more maintainable, understandable, and easier to test by minimizing the overlap of responsibilities between different parts of the code.
+
+Every directory/section have function like this:
+
+- handlers, for code that responsibilty with handling request and response
+- config, for code that responsibity with configuration that connect project with database or something similiar.
+- middleware, for store middleware code
+- models, for store struck/object database, body, or response.
+- repositories, for code that responsibilty do something on database.
+- roouters, for code that responsibity make API route.
 
 ## ⚙️ Installation From Clone Repository
 
@@ -78,3 +95,22 @@ $ go run ./cmd/main.go
 | POST   | /api/categories         | json{ "name":string, "color":string }                                                                        |                                         | "create new category"                             |
 | PUT    | /api/categories/:id     | json{ "name":string, "color":string }                                                                        | id=integer                              | "update category"                                 |
 | DELETE | /api/categories/:id     |                                                                                                              | id=integer                              | "delete category"                                 |
+
+## Screenshot Demo API response
+
+<div align="center">
+
+<img src="/demo/demo_geteallorfiltertodo.png" loading="lazy" width="370px">
+<img src="/demo/demo_create_todo.png" loading="lazy" width="370px"> </br>
+<img src="/demo/demo_detailtodo.png" loading="lazy" width="370px">
+<img src="/demo/demo_updatetodo.png" loading="lazy" width="370px"> </br>
+
+<img src="/demo/demo_deletetodo.png" loading="lazy" width="370px">
+<img src="/demo/demo_togglecomplete.png" loading="lazy" width="370px"></br>
+<img src="/demo/demo_getCategory.png" loading="lazy" width="370px"> 
+<img src="/demo/demo_createCategory.png" loading="lazy" width="370px"></br>
+
+<img src="/demo/demo_updateCategory.png" loading="lazy" width="370px">
+<img src="/demo/demo_deleteCategory.png" loading="lazy" width="370px">
+
+</div>
