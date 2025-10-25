@@ -115,6 +115,10 @@ $ go run ./cmd/main.go
 
 </div>
 
+## 📧 Contact Info
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/m16yusuf/)
+
 ## 🎯 Related Project
 
 [https://github.com/M16Yusuf/lets-to-do-frontend](https://github.com/M16Yusuf/lets-to-do-frontend)
