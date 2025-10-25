@@ -15,7 +15,9 @@ type Todo struct {
 }
 
 type TodoList struct {
-	Id          int    `json:"id" gorm:"primaryKey"`
-	Title       string `json:"title"`
-	IsCompleted bool   `json:"is_completed"`
+	Id          int        `json:"id" gorm:"primaryKey"`
+	Title       string     `json:"title"`
+	Category_id *int       `json:"category_id"`
+	DueDate     *time.Time `json:"due_date"`
+	IsCompleted bool       `json:"is_completed"`
 }
