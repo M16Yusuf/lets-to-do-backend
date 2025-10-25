@@ -25,6 +25,36 @@ func (t *Todohandler) CreateTodo(ctx *gin.Context) {
 
 	if err := ctx.ShouldBindJSON(&body); err != nil {
 		log.Println("failed binding data \nCause :", err)
+		ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{ //422
+			Response: models.Response{
+				IsSuccess: false,
+				Code:      http.StatusInternalServerError, // 422 unprocesable entity
+			},
+			Err: "Internal server error",
+		})
+		return
+	}
+
+	// if err := t.tr.CreateTodo(body); err != nil {
+	// 	log.Println("failed execute repositories \n Cause : ", err)
+	// 	ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{
+	// 		Response: models.Response{
+	// 			IsSuccess: false,
+	// 			Code:      http.StatusInternalServerError,
+	// 		},
+	// 		Err: "Internal server error",
+	// 	})
+	// 	return
+	// } else { // jangan pake else
+	// 	ctx.JSON(http.StatusOK, models.Response{
+	// 		IsSuccess: true,
+	// 		Code:      http.StatusOK,
+	// 		Msg:       "Todo created successfully",
+	// 	})
+	// }
+	err := t.tr.CreateTodo(body)
+	if err != nil {
+		log.Println("failed execute repositories \n Cause : ", err)
 		ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{
 			Response: models.Response{
 				IsSuccess: false,
@@ -35,23 +65,12 @@ func (t *Todohandler) CreateTodo(ctx *gin.Context) {
 		return
 	}
 
-	if err := t.tr.CreateTodo(body); err != nil {
-		log.Println("failed execute repositories \n Cause : ", err)
-		ctx.JSON(http.StatusInternalServerError, models.ErrorResponse{
-			Response: models.Response{
-				IsSuccess: false,
-				Code:      http.StatusInternalServerError,
-			},
-			Err: "Internal server error",
-		})
-		return
-	} else {
-		ctx.JSON(http.StatusOK, models.Response{
-			IsSuccess: true,
-			Code:      http.StatusOK,
-			Msg:       "Todo created successfully",
-		})
-	}
+	ctx.JSON(http.StatusOK, models.Response{
+		IsSuccess: true,
+		Code:      http.StatusOK,
+		Msg:       "Todo created successfully",
+	})
+
 }
 
 func (t *Todohandler) GetAllAndFilter(ctx *gin.Context) {
